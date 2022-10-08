@@ -1,0 +1,9 @@
+### Create Room
+POST http://localhost:8080/chat
+Content-Type: application/x-www-form-urlencoded
+
+name=first room
+
+### Room List
+GET http://localhost:8080/chat
+
