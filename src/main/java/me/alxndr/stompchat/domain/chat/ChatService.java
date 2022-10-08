@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.alxndr.stompchat.infrastructure.ChatRoomRepository;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -33,5 +34,11 @@ public class ChatService {
 		return chatRoomRepository.createChatRoom(name);
 	}
 
+	public void enterChatRoom(String roomId) {
+		chatRoomRepository.enterChatRoom(roomId);
+	}
 
+	public ChannelTopic getTopic(String roomId) {
+		return chatRoomRepository.getTopic(roomId);
+	}
 }

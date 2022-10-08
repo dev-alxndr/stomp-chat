@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import me.alxndr.stompchat.domain.chat.ChatRoom;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
+public class InMemoryChatRoomRepository implements ChatRoomRepository {
 	private Map<String, ChatRoom> chatRoomMap;
 
 	@PostConstruct
@@ -36,6 +36,15 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 		final var newChatRoom = ChatRoom.create(name);
 		chatRoomMap.put(newChatRoom.getRoomId(), newChatRoom);
 		return newChatRoom;
+	}
+
+	@Override
+	public void enterChatRoom(final String roomId) {
+		// Do Nothing
+	}
+
+	@Override public ChannelTopic getTopic(final String roomId) {
+		return null;
 	}
 
 
