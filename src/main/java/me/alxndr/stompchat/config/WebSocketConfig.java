@@ -1,22 +1,27 @@
 package me.alxndr.stompchat.config;
 
 import lombok.RequiredArgsConstructor;
-import me.alxndr.stompchat.interfaces.handler.WebsocketHandler;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @RequiredArgsConstructor
-@EnableWebSocket
+@EnableWebSocketMessageBroker
 @Configuration
-public class WebSocketConfig implements WebSocketConfigurer {
-
-	private final WebsocketHandler websocketHandler;
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
-	public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-		registry.addHandler(websocketHandler, "/ws/chat")
-				.setAllowedOrigins("*");
+	public void configureMessageBroker(final MessageBrokerRegistry registry) {
+		registry.enableSimpleBroker("/sub");
+		registry.setApplicationDestinationPrefixes("/pub");
+
+	}
+
+	@Override public void registerStompEndpoints(final StompEndpointRegistry registry) {
+		registry.addEndpoint("/ws-stomp")
+				.setAllowedOriginPatterns("*")
+				.withSockJS();
 	}
 }
